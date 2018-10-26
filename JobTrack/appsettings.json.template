@@ -1,0 +1,11 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=DESKTOP-DF4KNSB\\SQLEXPRESS;Database=JobTrack;Trusted_Connection=True;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
