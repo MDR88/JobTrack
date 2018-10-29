@@ -30,7 +30,7 @@ namespace JobTrack.Models
         [Required]
         public int JobUserId { get; set; }
 
-        public JobUser JobUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         [Required]
         public int CompanyId { get; set; }
