@@ -18,5 +18,10 @@ namespace JobTrack.Models
         [Required]
         public string Location { get; set; }
 
+        [Required]
+        public int ContactId { get; set; }
+
+        public Contact Contact { get; set; }
+
     }
 }
