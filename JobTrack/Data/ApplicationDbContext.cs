@@ -16,7 +16,6 @@ namespace JobTrack.Data
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<Contact> Contact { get; set; }
-        public DbSet<ErrorViewModel> ErrorViewModel { get; set; }
         public DbSet<Job> Job { get; set; }
         public DbSet<Status> Status { get; set; }
     }

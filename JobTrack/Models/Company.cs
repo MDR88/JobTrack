@@ -19,9 +19,6 @@ namespace JobTrack.Models
         public string Location { get; set; }
 
         [Required]
-        public int ContactId { get; set; }
-
-        public Contact Contact { get; set; }
 
         public virtual ICollection<Contact> Contacts { get; set; }
 
