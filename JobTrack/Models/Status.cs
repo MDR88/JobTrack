@@ -14,7 +14,7 @@ namespace JobTrack.Models
 
 
         [Required]
-        public string CurrentStatus { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<Job> Jobs { get; set; }
     }
