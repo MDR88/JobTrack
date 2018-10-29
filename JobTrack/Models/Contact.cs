@@ -32,5 +32,7 @@ namespace JobTrack.Models
 
         public Company Company { get; set; }
 
+        public virtual ICollection<Job> Jobs { get; set; }
+
     }
 }

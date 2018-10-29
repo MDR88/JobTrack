@@ -23,5 +23,7 @@ namespace JobTrack.Models
 
         public Contact Contact { get; set; }
 
+        public virtual ICollection<Job> Jobs { get; set; }
+
     }
 }
