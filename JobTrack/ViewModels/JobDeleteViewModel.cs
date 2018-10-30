@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace JobTrack.ViewModels
 {
-    public class JobCreateViewModel
+    public class JobDeleteViewModel
     {
         public Job Job { get; set; }
-
-     
     }
 }
