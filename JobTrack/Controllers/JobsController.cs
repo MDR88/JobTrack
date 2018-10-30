@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JobTrack.Data;
+using JobTrack.ViewModels;
 using JobTrack.Models;
 
 namespace JobTrack.Controllers
@@ -22,7 +23,7 @@ namespace JobTrack.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Job.Include(j => j.Company).Include(j => j.Status);
+            var applicationDbContext = _context.Job.Include(j => j.ApplicationUser).Include(j => j.Company).Include(j => j.Status);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,6 +36,7 @@ namespace JobTrack.Controllers
             }
 
             var job = await _context.Job
+                .Include(j => j.ApplicationUser)
                 .Include(j => j.Company)
                 .Include(j => j.Status)
                 .FirstOrDefaultAsync(m => m.JobId == id);
@@ -49,9 +51,15 @@ namespace JobTrack.Controllers
         // GET: Jobs/Create
         public IActionResult Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location");
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name");
-            return View();
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
+
+            //ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location");
+
+            JobCreateViewModel JobCreateViewModel = new JobCreateViewModel(_context);
+            return View(JobCreateViewModel);
+
+            //ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name");
+            //return View();
         }
 
         // POST: Jobs/Create
@@ -59,7 +67,7 @@ namespace JobTrack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,Name,Position,DateApplied,StatusId,JobUserId,CompanyId")] Job job)
+        public async Task<IActionResult> Create([Bind("JobId,Name,Position,DateApplied,StatusId,ApplicationUserId,CompanyId")] Job job)
         {
             if (ModelState.IsValid)
             {
@@ -67,6 +75,7 @@ namespace JobTrack.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", job.ApplicationUserId);
             ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", job.CompanyId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name", job.StatusId);
             return View(job);
@@ -85,6 +94,7 @@ namespace JobTrack.Controllers
             {
                 return NotFound();
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", job.ApplicationUserId);
             ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", job.CompanyId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name", job.StatusId);
             return View(job);
@@ -95,7 +105,7 @@ namespace JobTrack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("JobId,Name,Position,DateApplied,StatusId,JobUserId,CompanyId")] Job job)
+        public async Task<IActionResult> Edit(int id, [Bind("JobId,Name,Position,DateApplied,StatusId,ApplicationUserId,CompanyId")] Job job)
         {
             if (id != job.JobId)
             {
@@ -122,6 +132,7 @@ namespace JobTrack.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", job.ApplicationUserId);
             ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", job.CompanyId);
             ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name", job.StatusId);
             return View(job);
@@ -136,6 +147,7 @@ namespace JobTrack.Controllers
             }
 
             var job = await _context.Job
+                .Include(j => j.ApplicationUser)
                 .Include(j => j.Company)
                 .Include(j => j.Status)
                 .FirstOrDefaultAsync(m => m.JobId == id);

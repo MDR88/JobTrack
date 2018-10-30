@@ -1,4 +1,5 @@
-﻿@model JobTrack.Models.Job
+﻿@model JobTrack.ViewModels.JobCreateViewModel
+
 
 @{
     ViewData["Title"] = "Create";
@@ -13,32 +14,31 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Job.Name" class="control-label"></label>
+                <input asp-for="Job.Name" class="form-control" />
+                <span asp-validation-for="Job.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
+                <label asp-for="Job.Position" class="control-label"></label>
+                <input asp-for="Job.Position" class="form-control" />
+                <span asp-validation-for="Job.Position" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateApplied" class="control-label"></label>
-                <input asp-for="DateApplied" class="form-control" />
-                <span asp-validation-for="DateApplied" class="text-danger"></span>
+                <label asp-for="Job.DateApplied" class="control-label"></label>
+                <input asp-for="Job.DateApplied" class="form-control" />
+                <span asp-validation-for="Job.DateApplied" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StatusId" class="control-label"></label>
-                <select asp-for="StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
+                <label asp-for="Job.StatusId" class="control-label"></label>
+                <select asp-for="Job.StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
             </div>
+            @*<div class="form-group">
+                <label asp-for="Job.ApplicationUserId" class="control-label"></label>
+                <select asp-for="Job.ApplicationUserId" class ="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+            </div>*@
             <div class="form-group">
-                <label asp-for="JobUserId" class="control-label"></label>
-                <input asp-for="JobUserId" class="form-control" />
-                <span asp-validation-for="JobUserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompanyId" class="control-label"></label>
-                <select asp-for="CompanyId" class ="form-control" asp-items="ViewBag.CompanyId"></select>
+                <label asp-for="Job.CompanyId" class="control-label"></label>
+                <select asp-for="Job.CompanyId" class ="form-control" asp-items="ViewBag.CompanyId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

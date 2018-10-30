@@ -1,4 +1,4 @@
-﻿@model JobTrack.Models.Job
+﻿@model JobTrack.ViewModels.JobDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,44 +11,44 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Job.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Job.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Position)
+            @Html.DisplayNameFor(model => model.Job.Position)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Position)
+            @Html.DisplayFor(model => model.Job.Position)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DateApplied)
+            @Html.DisplayNameFor(model => model.Job.DateApplied)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DateApplied)
+            @Html.DisplayFor(model => model.Job.DateApplied)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Job.Status)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Status.Name)
+            @Html.DisplayFor(model => model.Job.Status.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.JobUserId)
+            @Html.DisplayNameFor(model => model.Job.ApplicationUser)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.JobUserId)
+            @Html.DisplayFor(model => model.Job.ApplicationUser.Id)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Company)
+            @Html.DisplayNameFor(model => model.Job.Company)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Company.Location)
+            @Html.DisplayFor(model => model.Job.Company.Location)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.JobId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Job.JobId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
