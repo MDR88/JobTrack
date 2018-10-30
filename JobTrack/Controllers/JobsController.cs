@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JobTrack.Data;
+using JobTrack.ViewModels;
 using JobTrack.Models;
 
 namespace JobTrack.Controllers
@@ -51,9 +52,14 @@ namespace JobTrack.Controllers
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
-            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location");
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name");
-            return View();
+
+            //ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location");
+
+            JobCreateViewModel JobCreateViewModel = new JobCreateViewModel(_context);
+            return View(JobCreateViewModel);
+
+            //ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name");
+            //return View();
         }
 
         // POST: Jobs/Create
