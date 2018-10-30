@@ -28,7 +28,7 @@ namespace JobTrack.Models
         public Status Status { get; set; }
 
         [Required]
-        public int JobUserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
 
