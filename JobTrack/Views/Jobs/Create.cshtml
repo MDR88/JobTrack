@@ -18,11 +18,11 @@
                 <label asp-for="Job.CompanyId" class="control-label"></label>
                 <select asp-for="Job.CompanyId" class="form-control" asp-items="@Model.Company"></select>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Job.Name" class="control-label"></label>
                 <input asp-for="Job.Name" class="form-control" />
                 <span asp-validation-for="Job.Name" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Job.Position" class="control-label"></label>
                 <input asp-for="Job.Position" class="form-control" />

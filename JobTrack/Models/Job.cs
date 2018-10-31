@@ -13,7 +13,7 @@ namespace JobTrack.Models
         public int JobId { get; set; }
 
         [Required]
-        [StringLength(25), Display (Name ="Company Name")]
+        [StringLength(25)]
         public string Name { get; set; }
 
         [Required]
