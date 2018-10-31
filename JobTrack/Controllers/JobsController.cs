@@ -8,18 +8,35 @@ using Microsoft.EntityFrameworkCore;
 using JobTrack.Data;
 using JobTrack.ViewModels;
 using JobTrack.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobTrack.Controllers
 {
     public class JobsController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public JobsController(ApplicationDbContext context)
+        public JobsController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
+        // Stores private reference to Identity Framework user manager
+        
+
+
+        //public PetsController(ApplicationDbContext context,
+        //                          UserManager<ApplicationUser> userManager)
+        //{
+        //    _context = context;
+        //    _userManager = userManager;
+        //}
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
@@ -67,18 +84,24 @@ namespace JobTrack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,Name,Position,DateApplied,StatusId,ApplicationUserId,CompanyId")] Job job)
+        public async Task<IActionResult> Create([Bind("JobId,Name,Position,DateApplied,StatusId,CompanyId")] Job job)
         {
+            ModelState.Remove("ApplicationUserId");
             if (ModelState.IsValid)
             {
+                var user = await GetCurrentUserAsync();
+               
+                job.ApplicationUser= user;
                 _context.Add(job);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", job.ApplicationUserId);
-            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", job.CompanyId);
-            ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name", job.StatusId);
-            return View(job);
+            //ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUser, "Id", "Id", job.ApplicationUserId);
+            //ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", job.CompanyId);
+            //ViewData["StatusId"] = new SelectList(_context.Status, "StatusId", "Name", job.StatusId);
+            JobCreateViewModel JobCreateViewModel = new JobCreateViewModel(_context);
+            return View(JobCreateViewModel);
+            
         }
 
         // GET: Jobs/Edit/5

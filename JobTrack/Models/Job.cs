@@ -13,7 +13,7 @@ namespace JobTrack.Models
         public int JobId { get; set; }
 
         [Required]
-        [StringLength(25)]
+        [StringLength(25), Display (Name ="Company Name")]
         public string Name { get; set; }
 
         [Required]
@@ -27,7 +27,7 @@ namespace JobTrack.Models
 
         public Status Status { get; set; }
 
-        [Required]
+      
         public string ApplicationUserId { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
