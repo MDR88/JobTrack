@@ -38,10 +38,15 @@ namespace JobTrack.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Jobs
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Job.Include(j => j.ApplicationUser).Include(j => j.Company).Include(j => j.Status);
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = _context.Job.Include(j => j.ApplicationUser).Include(j => j.Company).Include(j => j.Status).Where(j => j.ApplicationUserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
+
+           
+
         }
 
         // GET: Jobs/Details/5
