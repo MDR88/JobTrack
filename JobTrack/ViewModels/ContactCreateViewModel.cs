@@ -8,29 +8,21 @@ using System.Threading.Tasks;
 
 namespace JobTrack.ViewModels
 {
-    public class JobEditViewModel
+    public class ContactCreateViewModel
     {
 
-        public Job Job { get; set; }
-
-        public List<SelectListItem> Status { get; set; }
         public List<SelectListItem> Company { get; set; }
 
-
-        public JobEditViewModel(ApplicationDbContext context)
+        public ContactCreateViewModel(ApplicationDbContext context)
         {
-
-    
             Company = context.Company.Select(Company =>
            new SelectListItem { Text = Company.Name, Value = Company.CompanyId.ToString() }).ToList();
 
 
-            Status = context.Status.Select(Status =>
-           new SelectListItem { Text = Status.Name, Value = Status.StatusId.ToString() }).ToList();
+          
 
         }
-
-
+        public Contact Contact { get; set; }
 
     }
 }

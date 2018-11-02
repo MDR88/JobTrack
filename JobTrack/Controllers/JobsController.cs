@@ -141,6 +141,14 @@ namespace JobTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("JobId,Name,Position,DateApplied,StatusId,ApplicationUserId,CompanyId")] Job job)
         {
+           
+            var user = await GetCurrentUserAsync();
+
+            job.ApplicationUser = user;
+            _context.Update(job);
+            await _context.SaveChangesAsync();
+
+
             if (id != job.JobId)
             {
                 return NotFound();
