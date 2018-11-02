@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit</h2>   
 
 <h4>Job</h4>
 <hr />
@@ -13,11 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Job.JobId" />
-            <div class="form-group">
-                <label asp-for="Job.Name" class="control-label"></label>
-                <input asp-for="Job.Name" class="form-control" />
-                <span asp-validation-for="Job.Name" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <label asp-for="Job.Position" class="control-label"></label>
                 <input asp-for="Job.Position" class="form-control" />
@@ -30,17 +26,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Job.StatusId" class="control-label"></label>
-                <select asp-for="Job.StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+                <select asp-for="Job.StatusId" class="form-control" asp-items="@Model.Status"></select>
                 <span asp-validation-for="Job.StatusId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Job.ApplicationUserId" class="control-label"></label>
-                <select asp-for="Job.ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+                <select asp-for="Job.ApplicationUserId" class="form-control" asp-items="@Model.ApplicationUser"></select>
                 <span asp-validation-for="Job.ApplicationUserId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Job.CompanyId" class="control-label"></label>
-                <select asp-for="Job.CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
+                <select asp-for="Job.CompanyId" class="form-control" asp-items="@Model.Company"></select>
                 <span asp-validation-for="Job.CompanyId" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -4,14 +4,16 @@ using JobTrack.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobTrack.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181031182102_removed-required-appuserid")]
+    partial class removedrequiredappuserid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,6 +81,10 @@ namespace JobTrack.Data.Migrations
                     b.Property<int>("CompanyId");
 
                     b.Property<DateTime?>("DateApplied");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Position")
                         .IsRequired();

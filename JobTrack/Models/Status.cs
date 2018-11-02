@@ -13,7 +13,7 @@ namespace JobTrack.Models
         public int StatusId { get; set; }
 
 
-        [Required]
+        [Required, Display(Name = "Job Status")]
         public string Name { get; set; }
 
         public virtual ICollection<Job> Jobs { get; set; }

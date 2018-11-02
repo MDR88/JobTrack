@@ -10,22 +10,23 @@ using JobTrack.Models;
 
 namespace JobTrack.Controllers
 {
-    public class CompaniesController : Controller
+    public class ContactsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CompaniesController(ApplicationDbContext context)
+        public ContactsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Companies
+        // GET: Contacts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Company.ToListAsync());
+            var applicationDbContext = _context.Contact.Include(c => c.Company);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Companies/Details/5
+        // GET: Contacts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,40 +34,42 @@ namespace JobTrack.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Company
-                .FirstOrDefaultAsync(m => m.CompanyId == id);
-            if (company == null)
+            var contact = await _context.Contact
+                .Include(c => c.Company)
+                .FirstOrDefaultAsync(m => m.ContactId == id);
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(company);
+            return View(contact);
         }
 
-        // GET: Companies/Create
+        // GET: Contacts/Create
         public IActionResult Create()
         {
+            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location");
             return View();
         }
 
-        // POST: Companies/Create
+        // POST: Contacts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyId,Name,Location")] Company company)
+        public async Task<IActionResult> Create([Bind("ContactId,FirstName,LastName,Phone,Email,Notes,CompanyId")] Contact contact)
         {
-            ModelState.Remove("Contacts");
             if (ModelState.IsValid)
             {
-                _context.Add(company);
+                _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(company);
+            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", contact.CompanyId);
+            return View(contact);
         }
 
-        // GET: Companies/Edit/5
+        // GET: Contacts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +77,23 @@ namespace JobTrack.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Company.FindAsync(id);
-            if (company == null)
+            var contact = await _context.Contact.FindAsync(id);
+            if (contact == null)
             {
                 return NotFound();
             }
-            return View(company);
+            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", contact.CompanyId);
+            return View(contact);
         }
 
-        // POST: Companies/Edit/5
+        // POST: Contacts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CompanyId,Name,Location")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("ContactId,FirstName,LastName,Phone,Email,Notes,CompanyId")] Contact contact)
         {
-            if (id != company.CompanyId)
+            if (id != contact.ContactId)
             {
                 return NotFound();
             }
@@ -98,12 +102,12 @@ namespace JobTrack.Controllers
             {
                 try
                 {
-                    _context.Update(company);
+                    _context.Update(contact);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompanyExists(company.CompanyId))
+                    if (!ContactExists(contact.ContactId))
                     {
                         return NotFound();
                     }
@@ -114,10 +118,11 @@ namespace JobTrack.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(company);
+            ViewData["CompanyId"] = new SelectList(_context.Company, "CompanyId", "Location", contact.CompanyId);
+            return View(contact);
         }
 
-        // GET: Companies/Delete/5
+        // GET: Contacts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +130,31 @@ namespace JobTrack.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Company
-                .FirstOrDefaultAsync(m => m.CompanyId == id);
-            if (company == null)
+            var contact = await _context.Contact
+                .Include(c => c.Company)
+                .FirstOrDefaultAsync(m => m.ContactId == id);
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(company);
+            return View(contact);
         }
 
-        // POST: Companies/Delete/5
+        // POST: Contacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var company = await _context.Company.FindAsync(id);
-            _context.Company.Remove(company);
+            var contact = await _context.Contact.FindAsync(id);
+            _context.Contact.Remove(contact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CompanyExists(int id)
+        private bool ContactExists(int id)
         {
-            return _context.Company.Any(e => e.CompanyId == id);
+            return _context.Contact.Any(e => e.ContactId == id);
         }
     }
 }
