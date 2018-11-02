@@ -14,7 +14,7 @@ namespace JobTrack.ViewModels
         public List<SelectListItem> Status { get; set; }
         public List<SelectListItem> Company { get; set; }
 
-        public JobCreateViewModel(ApplicationDbContext context)
+        public JobEditViewModel(ApplicationDbContext context)
         {
             Company = context.Company.Select(Company =>
            new SelectListItem { Text = Company.Name, Value = Company.CompanyId.ToString() }).ToList();

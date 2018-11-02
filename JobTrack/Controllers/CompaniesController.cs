@@ -56,6 +56,7 @@ namespace JobTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CompanyId,Name,Location")] Company company)
         {
+            ModelState.Remove("Contacts");
             if (ModelState.IsValid)
             {
                 _context.Add(company);
