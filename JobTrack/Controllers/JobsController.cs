@@ -29,12 +29,6 @@ namespace JobTrack.Controllers
         
 
 
-        //public PetsController(ApplicationDbContext context,
-        //                          UserManager<ApplicationUser> userManager)
-        //{
-        //    _context = context;
-        //    _userManager = userManager;
-        //}
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Jobs
@@ -67,7 +61,9 @@ namespace JobTrack.Controllers
                 return NotFound();
             }
 
-            return View(job);
+            JobDetailsViewModel JobDetails = new JobDetailsViewModel();
+            JobDetails.Job = job;
+            return View(JobDetails);
         }
 
         // GET: Jobs/Create
