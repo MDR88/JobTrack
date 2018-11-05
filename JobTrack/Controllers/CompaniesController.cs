@@ -115,7 +115,8 @@ namespace JobTrack.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("company.Contacts");
+            ModelState.Remove("company.Jobs");
             if (ModelState.IsValid)
             {
                 try
