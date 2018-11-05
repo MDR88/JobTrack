@@ -6,21 +6,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JobTrack.Data;
+using JobTrack.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using JobTrack.Models;
 
 namespace JobTrack.Controllers
 {
     public class CompaniesController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public CompaniesController(ApplicationDbContext context)
+        //Injecting Application DBContext and defining the userManager ApplicationUser.
+        public CompaniesController(ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+    private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        // GET: Companies
-        public async Task<IActionResult> Index()
+    // GET: Companies
+    [Authorize]
+    public async Task<IActionResult> Index()
         {
             return View(await _context.Company.ToListAsync());
         }
@@ -79,7 +88,13 @@ namespace JobTrack.Controllers
             {
                 return NotFound();
             }
-            return View(company);
+
+            CompanyEditViewModel CompanyEditViewModel = new CompanyEditViewModel();
+            CompanyEditViewModel.Company = company;
+            return View(CompanyEditViewModel);
+
+
+            //return View(company);
         }
 
         // POST: Companies/Edit/5
@@ -89,6 +104,13 @@ namespace JobTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CompanyId,Name,Location")] Company company)
         {
+            var user = await GetCurrentUserAsync();
+
+            //Company.ApplicationUser = user;
+            //_context.Update(company);
+            //await _context.SaveChangesAsync();
+
+
             if (id != company.CompanyId)
             {
                 return NotFound();
@@ -114,7 +136,10 @@ namespace JobTrack.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(company);
+            CompanyEditViewModel CompanyEditViewModel = new CompanyEditViewModel();
+            CompanyEditViewModel.Company = company;
+            return View(CompanyEditViewModel);
+           
         }
 
         // GET: Companies/Delete/5
